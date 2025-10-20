@@ -13,6 +13,8 @@ print_list() {
 
 #shows one object by its number
 print_item() {
+  echo "Here are all the current number of items ${#RandomItems[@]}, starting from 0"
+  sleep 2
   read -p "Enter the number of the item: " number
   if [[ $number -ge 0 && $number -lt ${#RandomItems[@]} ]]; then
     echo "Item $number is ${RandomItems[$number]}"
@@ -36,6 +38,7 @@ remove_last() {
 
 # remove an item by its number
 remove_item() {
+  echo "Here are all the current number of items ${#RandomItems[@]}, Starting from 0"
   read -p "Enter the number of the item to remove: " num
   if [[ $num -ge 0 && $num -lt ${#RandomItems[@]} ]]; then
     echo "${RandomItems[$num]} was removed."
@@ -47,7 +50,7 @@ remove_item() {
 }
 
 while true; do
-  echo
+  sleep 3
   echo "BASHING BOXES MENU"
   echo "1. Print list"
   echo "2. Print one item"
