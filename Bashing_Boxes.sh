@@ -3,6 +3,14 @@
 #This is the array for the random objects
 RandomItems=("Dresser" "Jar" "Chocolate bar" "Sofa" "Apple tree" "Shawl" "Butterfly" "Underwear" "Coat rack" "Hair dryer") 
 
+#saves the file to the /data directory
+save_file() {
+  read -p "Enter the name of your save file" filename
+
+}
+
+
+
 #shows the full list of objects
 print_list() {
   echo "Here is the list:"
@@ -49,6 +57,8 @@ remove_item() {
   fi
 }
 
+
+
 while true; do
   sleep 3
   echo "BASHING BOXES MENU"
@@ -57,16 +67,25 @@ while true; do
   echo "3. Add new item"
   echo "4. Remove last item"
   echo "5. Remove item by number"
-  echo "6. Exit"
-  read -p "Pick an option (1-6): " choice
+  echo "6. "
+  echo "7. "
+  echo "8. "
+  echo "9. "
+  echo "10. Exit"
+  read -p "Pick an option (1-10): " choice
 
-  case $choice in
+
+  case $choice in 
     1) print_list ;;
     2) print_item ;;
     3) add_item ;;
     4) remove_last ;;
     5) remove_item ;;
-    6) echo "Bye."; exit ;;
+    6) delete_save;;
+    7) save_file;;
+    8) load_file;;
+    9) list_saves;;
+    10) echo "Bye"; exit ;;
     *) echo "Not a valid choice." ;;
   esac
 done
