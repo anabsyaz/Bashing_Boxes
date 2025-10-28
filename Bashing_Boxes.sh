@@ -3,14 +3,6 @@
 #This is the array for the random objects
 RandomItems=("Dresser" "Jar" "Chocolate bar" "Sofa" "Apple tree" "Shawl" "Butterfly" "Underwear" "Coat rack" "Hair dryer") 
 
-#saves the file to the /data directory
-save_file() {
-  read -p "Enter the name of your save file" filename
-
-}
-
-
-
 #shows the full list of objects
 print_list() {
   echo "Here is the list:"
@@ -55,6 +47,14 @@ remove_item() {
   else
     echo "That number doesn’t exist."
   fi
+}
+
+delete_save()
+
+#saves the file to the /data directory
+save_file() {
+  read -p "Enter the name of your save file" filename
+  filepath = "data/${filename}.box"
 }
 
 
