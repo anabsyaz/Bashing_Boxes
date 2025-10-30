@@ -49,15 +49,31 @@ remove_item() {
   fi
 }
 
-delete_save()
+#
+delete_save() {
+  a
+}
 
 #saves the file to the /data directory
 save_file() {
-  read -p "Enter the name of your save file" filename
-  filepath = "data/${filename}.box"
+  read -p "Enter the name of your save file: " filename
+  filepath="data/${filename}.txt"
+  
+  for item in "${RandomItems[@]}"; do
+    echo "$item"
+  done > "$filepath"
+  #I can load the array easier with mapfile -t RandomItems < "$filepath"
+  
+  echo "Saved to $filepath"
 }
 
+load_file() {
+  ad
+}
 
+list_saves() {
+  d
+}
 
 while true; do
   sleep 3
@@ -67,10 +83,10 @@ while true; do
   echo "3. Add new item"
   echo "4. Remove last item"
   echo "5. Remove item by number"
-  echo "6. "
-  echo "7. "
-  echo "8. "
-  echo "9. "
+  echo "6. Delete save file"
+  echo "7. Save current box to file"
+  echo "8. Load box from file"
+  echo "9. List all boxes from file"
   echo "10. Exit"
   read -p "Pick an option (1-10): " choice
 
