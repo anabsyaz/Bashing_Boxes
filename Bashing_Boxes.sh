@@ -51,7 +51,14 @@ remove_item() {
 
 #
 delete_save() {
-  a
+  read -p "Enter the name of the save file to delete: " filename
+  filepath="data/${filename}.txt"
+  if [[ -f "$filepath" ]]; then
+    rm "$filepath"
+    echo "Deleted $filepath"
+  else
+    echo "File $filepath does not exist."
+  fi
 }
 
 #saves the file to the /data directory
@@ -68,11 +75,20 @@ save_file() {
 }
 
 load_file() {
-  ad
+  read -p "Enter the name of the save file to load: " filename
+  filepath="data/${filename}.txt"
+  
+  if [[ -f "$filepath" ]]; then
+    mapfile -t RandomItems < "$filepath"
+    echo "Loaded from $filepath"
+  else
+    echo "File $filepath does not exist."
+  fi
 }
 
 list_saves() {
-  d
+  echo "Available save files in data/:"
+  ls data/
 }
 
 while true; do
