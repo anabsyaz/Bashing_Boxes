@@ -1,23 +1,23 @@
 #!/bin/bash
 
 #This is the array for the random objects
-RandomItems=("Dresser" "Jar" "Chocolate bar" "Sofa" "Apple tree" "Shawl" "Butterfly" "Underwear" "Coat rack" "Hair dryer") 
+random_items=("Dresser" "Jar" "Chocolate bar" "Sofa" "Apple tree" "Shawl" "Butterfly" "Underwear" "Coat rack" "Hair dryer") 
 
 #shows the full list of objects
 print_list() {
   echo "Here is the list:"
-  for i in "${!RandomItems[@]}"; do
-    echo "$i: ${RandomItems[$i]}"
+  for i in "${!random_items[@]}"; do
+    echo "$i: ${random_items[$i]}"
   done
 }
 
 #shows one object by its number
 print_item() {
-  echo "Here are all the current number of items ${#RandomItems[@]}, starting from 0"
+  echo "Here are all the current number of items 0-${#random_items[@]}-1"
   sleep 2
   read -p "Enter the number of the item: " number
-  if [[ $number -ge 0 && $number -lt ${#RandomItems[@]} ]]; then
-    echo "Item $number is ${RandomItems[$number]}"
+  if [[ $number -ge 0 && $number -lt ${#random_items[@]} ]]; then
+    echo "Item $number is ${random_items[$number]}"
   else
     echo "That number doesn’t exist."
   fi
@@ -26,24 +26,24 @@ print_item() {
 # add a new item
 add_item() {
   read -p "Enter something to add: " thing
-  RandomItems+=("$thing")
+  random_items+=("$thing")
   echo "$thing added to the list."
 }
 
 # remove the last item
 remove_last() {
-  unset 'RandomItems[-1]'
+  unset 'random_items[-1]'
   echo "Last item removed."
 }
 
 # remove an item by its number
 remove_item() {
-  echo "Here are all the current number of items ${#RandomItems[@]}, Starting from 0"
+  echo "Here are all the current number of items ${#random_items[@]}, Starting from 0"
   read -p "Enter the number of the item to remove: " num
-  if [[ $num -ge 0 && $num -lt ${#RandomItems[@]} ]]; then
-    echo "${RandomItems[$num]} was removed."
-    unset 'RandomItems[num]'
-    RandomItems=("${RandomItems[@]}")
+  if [[ $num -ge 0 && $num -lt ${#random_items[@]} ]]; then
+    echo "${random_items[$num]} was removed."
+    unset 'random_items[num]'
+    random_items=("${random_items[@]}")
   else
     echo "That number doesn’t exist."
   fi
@@ -66,10 +66,10 @@ save_file() {
   read -p "Enter the name of your save file: " filename
   filepath="data/${filename}.txt"
   
-  for item in "${RandomItems[@]}"; do
+  for item in "${random_items[@]}"; do
     echo "$item"
   done > "$filepath"
-  #I can load the array easier with mapfile -t RandomItems < "$filepath"
+  #I can load the array easier with mapfile -t random_items < "$filepath"
   
   echo "Saved to $filepath"
 }
@@ -79,7 +79,7 @@ load_file() {
   filepath="data/${filename}.txt"
   
   if [[ -f "$filepath" ]]; then
-    mapfile -t RandomItems < "$filepath"
+    mapfile -t random_items < "$filepath"
     echo "Loaded from $filepath"
   else
     echo "File $filepath does not exist."
@@ -105,7 +105,6 @@ while true; do
   echo "9. List all boxes from file"
   echo "10. Exit"
   read -p "Pick an option (1-10): " choice
-
 
   case $choice in 
     1) print_list ;;
