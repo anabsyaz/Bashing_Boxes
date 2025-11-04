@@ -9,11 +9,12 @@ print_list() {
   for i in "${!random_items[@]}"; do
     echo "$i: ${random_items[$i]}"
   done
+  sleep 2
 }
 
 #shows one object by its number
 print_item() {
-  echo "Here are all the current number of items 0-${#random_items[@]}-1"
+  echo "Here are all the current number of items 0-$((${#random_items[@]} - 1))"
   sleep 2
   read -p "Enter the number of the item: " number
   if [[ $number -ge 0 && $number -lt ${#random_items[@]} ]]; then
@@ -21,6 +22,7 @@ print_item() {
   else
     echo "That number doesn’t exist."
   fi
+  sleep 2
 }
 
 # add a new item
@@ -28,37 +30,41 @@ add_item() {
   read -p "Enter something to add: " thing
   random_items+=("$thing")
   echo "$thing added to the list."
+  sleep 2
 }
 
 # remove the last item
 remove_last() {
   unset 'random_items[-1]'
   echo "Last item removed."
+  sleep 2
 }
 
 # remove an item by its number
 remove_item() {
   echo "Here are all the current number of items ${#random_items[@]}, Starting from 0"
   read -p "Enter the number of the item to remove: " num
-  if [[ $num -ge 0 && $num -lt ${#random_items[@]} ]]; then
+  if [[ $num -ge 0 && $num -lt ${#random_items[@]} ]]; then #checks if the number is valid if it is it removes the item
     echo "${random_items[$num]} was removed."
     unset 'random_items[num]'
     random_items=("${random_items[@]}")
   else
     echo "That number doesn’t exist."
   fi
+  sleep 2
 }
 
-#
+#deletes a save file from the /data directory
 delete_save() {
   read -p "Enter the name of the save file to delete: " filename
   filepath="data/${filename}.txt"
-  if [[ -f "$filepath" ]]; then
+  if [[ -f "$filepath" ]]; then #finds if the file exists
     rm "$filepath"
     echo "Deleted $filepath"
   else
     echo "File $filepath does not exist."
   fi
+  sleep 2
 }
 
 #saves the file to the /data directory
@@ -72,27 +78,55 @@ save_file() {
   #I can load the array easier with mapfile -t random_items < "$filepath"
   
   echo "Saved to $filepath"
+  sleep 2
 }
 
+#loads the file from the /data directory
 load_file() {
   read -p "Enter the name of the save file to load: " filename
-  filepath="data/${filename}.txt"
+  filepath="data/${filename}.txt" #specifies the path to the file
   
   if [[ -f "$filepath" ]]; then
-    mapfile -t random_items < "$filepath"
+    mapfile -t random_items < "$filepath" #loads the file into the array
     echo "Loaded from $filepath"
   else
     echo "File $filepath does not exist."
   fi
+  sleep 2
 }
 
+#lists all save files in the /data directory
 list_saves() {
   echo "Available save files in data/:"
   ls data/
+  sleep 2
 }
 
+echo "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠀⡠⢀⠔⠬⣁⠒⡀⠤⠀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠀⠤⠀⡒⠠⠉⠔⠠⡑⢠⠃⠌⢒⠀⡃⠜⡀⢃⢰⣀⠮⡄⢖⡠⠤⣀⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⢀⡀⠠⠀⠂⡀⠡⠐⢀⠁⢂⠡⢀⠑⡈⠌⠁⠄⡁⠌⢐⣠⠡⠴⡒⠪⢍⡒⢌⣒⠭⠆⠃⡉⠄⠂⡈⠄⠐⡀⠂⠄⠀⡀⠀⠀⠀
+⡔⠄⡅⡀⠀⠀⠐⠀⠐⠀⠈⠀⠈⠀⠀⠂⢀⢀⠤⠬⠂⢆⠩⡁⢆⣉⠦⠡⠓⠂⠉⠀⠀⠀⠀⠄⠠⠀⠁⡀⠐⠀⠀⠀⠀⢀⢀⢠⠡⢠
+⠀⠀⠀⠈⠀⠃⠀⠆⠠⠄⢀⡀⠤⠠⠒⡈⠅⡈⡐⡄⠩⠀⠒⠁⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠠⠄⠰⠀⠋⠈⠁⠀⠀⢠
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢈⠐⠈⠠⠓⠐⠄⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠠⢀⠐⠀⠃⠀⠁⠀⠀⠀⠀⠀⠀⠀⡀⠄⠰
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠀⠀⢸⠀⠀⠁⠀⠀⠰⠀⢀⠀⡀⢀⠀⢠⠀⠄⠀⠃⠈⠀⠀⠀⠀⠀⠀⠀⠀⢀⠠⠀⠂⡁⠐⠠⢀⠱
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂⠠⠀⣸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⠄⢀⠁⠠⠀⠌⡐⠠⡁⠒⡀⠎
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠀⠠⠐⠈⡀⠄⠂⠄⡨⠐⡁⠒⡠⢁⠆⠱⣀⠃
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠐⠈⡀⠄⠂⠄⠡⠐⣈⠰⠁⠤⠑⡈⠥⡐⢡⠊⠥⣀⠇
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠂⡀⢁⠂⠄⠡⠐⣈⠐⡉⢄⠃⡄⢢⠉⢆⠱⡈⢆⡑⢢⡉⢖⠰⠊
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢁⠰⢀⡈⠆⢁⠁⢆⠸⡀⠎⡰⠈⡆⠉⡆⢱⠸⣀⠎⣁⠸⡈⢇⠇
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⠂⠔⢂⠰⡈⠆⡩⢐⠢⡑⠌⡔⠣⢌⡱⢌⡱⢢⡑⢎⡔⢫⡜⡜⡂
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠈⡜⣀⠣⡐⡡⢆⢡⢒⡡⢍⡒⣍⠲⡘⢦⡑⣣⠜⣎⡜⣣⢞⡱⡃
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⠰⡐⡄⣃⠖⡡⢎⡂⢧⡘⢦⠱⣌⢣⡝⢦⡙⢦⡛⣴⡙⣦⢏⢶⡃
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⡆⡱⢢⠅⣎⠱⣢⢙⠦⣙⠦⣛⢬⠳⣜⢣⡝⣣⡝⣶⢹⡖⣯⢞⡅
+⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠰⣏⡔⢣⡚⡴⢋⡴⣋⠞⣥⢛⡜⣎⣗⣮⢷⡿⣱⢻⡜⣧⣻⡜⣯⠆
+⠣⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠸⣇⠞⣥⡹⣜⢣⡳⣍⢾⣡⡿⣾⣿⣽⣿⣞⣿⣱⢟⡾⣱⢧⣿⡽⠷
+⠀⠀⠉⠐⠠⢀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⣯⠞⣦⢳⣜⣧⣷⣟⣿⣯⠷⣿⣯⣻⣷⢫⣷⢯⣾⡽⠟⠛⠁⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠁⠒⠠⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣷⡿⣞⣯⣯⢿⣽⡞⣷⣯⣟⣿⣷⣿⡿⠿⠛⠉⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠂⠄⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⡗⣿⣿⠷⣿⣿⣽⣿⡿⠿⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠐⠠⠄⡀⠀⠀⠀⠀⣿⣟⣷⣿⣿⠿⠞⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
+⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠐⠠⢀⣿⠟⠛⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀"
 while true; do
-  sleep 3
+  echo "==========================="
   echo "BASHING BOXES MENU"
   echo "1. Print list"
   echo "2. Print one item"
@@ -104,6 +138,7 @@ while true; do
   echo "8. Load box from file"
   echo "9. List all boxes from file"
   echo "10. Exit"
+  echo "==========================="
   read -p "Pick an option (1-10): " choice
 
   case $choice in 
