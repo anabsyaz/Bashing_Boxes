@@ -1,5 +1,5 @@
 #!/bin/bash
-
+clear
 #This is the array for the random objects
 random_items=("Dresser" "Jar" "Chocolate bar" "Sofa" "Apple tree" "Shawl" "Butterfly" "Underwear" "Coat rack" "Hair dryer") 
 
@@ -138,9 +138,13 @@ menu() {
     7) save_file;;
     8) load_file;;
     9) list_saves;;
-    10) echo "Bye"; exit ;;
+    10) echo "Bye"; clear; exit ;;
     *) echo "Not a valid choice." ;;
   esac
+}
+
+load_object_pool() {
+  
 }
 
 echo "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠀⡠⢀⠔⠬⣁⠒⡀⠤⠀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
