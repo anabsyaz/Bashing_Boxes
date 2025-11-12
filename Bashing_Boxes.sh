@@ -111,6 +111,12 @@ list_saves() {
   menu
 }
 
+#generates a random box with items from the warehouse of objects file
+generate_random_box() {
+  random_items=() #clears the current array
+  shuf -n 10 (/home/farrow/Bashing_Boxes/warehouse_of_objects.txt) >
+}
+
 #main menu function
 menu() {
   echo "==========================="
@@ -124,7 +130,8 @@ menu() {
   echo "7. Save current box to file"
   echo "8. Load box from file"
   echo "9. List all boxes from file"
-  echo "10. Exit"
+  echo "10. generate random box"
+  echo "11. Exit"
   echo "==========================="
   read -p "Pick an option (1-10): " choice
 
@@ -134,17 +141,14 @@ menu() {
     3) add_item ;;
     4) remove_last ;;
     5) remove_item ;;
-    6) delete_save;;
-    7) save_file;;
-    8) load_file;;
-    9) list_saves;;
-    10) echo "Bye"; clear; exit ;;
+    6) delete_save ;;
+    7) save_file ;;
+    8) load_file ;;
+    9) list_saves ;;
+    10) generate_random_box ;;
+    11) echo "Bye"; clear; exit ;;
     *) echo "Not a valid choice." ;;
   esac
-}
-
-load_object_pool() {
-  
 }
 
 echo "⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⠀⡠⢀⠔⠬⣁⠒⡀⠤⠀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
