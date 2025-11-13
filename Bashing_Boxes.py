@@ -16,10 +16,12 @@ def print_item():
     print(f"Here are the current amount of items: {len(RandomItems)}")
     time.sleep(1)
     int(number_in_array=input("Enter the number of the item: "))
+
     if 0 < number_in_array < len(RandomItems):
         print(f"{RandomItems[number_in_array]}")
     else:
         print("That number does not exist in the index")
 
 
-print_item()
+def add_item():
+    print(f"Here are the current items: {RandomItems}")
