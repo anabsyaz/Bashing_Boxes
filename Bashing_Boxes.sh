@@ -111,10 +111,33 @@ list_saves() {
   menu
 }
 
+#loads the object pool from the warehouse_of_objects.txt file
+load_object_pool() {
+  if [[ -f "/home/farrow/Bashing_Boxes/warehouse_of_objects.txt" ]]; then
+    mapfile -t object_pool < "/home/farrow/Bashing_Boxes/warehouse_of_objects.txt"
+  else
+    echo "Object pool file not found!"
+    exit 1
+  fi
+}
+
+prompt_for_box_size() {
+  read -p "Enter the number of items for the random box (Max 30 objects): " box_size
+  if [[ $box_size -lt 1 || $box_size -gt 30 ]]; then
+    echo "Invalid input. Defaulting to 10."
+    box_size=10
+  fi
+}
+
 #generates a random box with items from the warehouse of objects file
-generate_random_box() {
+generate_box_randomly() {
   random_items=() #clears the current array
-  shuf -n 10 (/home/farrow/Bashing_Boxes/warehouse_of_objects.txt) >
+  load_object_pool
+  prompt_for_box_size
+  mapfile -t random_items < <(shuf -n "$box_size" /home/farrow/Bashing_Boxes/warehouse_of_objects.txt)
+  #The < <() is called process substitution It lets a command’s output be treated like a file for input redirection.
+  echo "Generated a random box with $box_size items."
+  menu
 }
 
 #main menu function
@@ -133,7 +156,7 @@ menu() {
   echo "10. generate random box"
   echo "11. Exit"
   echo "==========================="
-  read -p "Pick an option (1-10): " choice
+  read -p "Pick an option (1-11): " choice
 
   case $choice in 
     1) print_list ;;
@@ -145,7 +168,7 @@ menu() {
     7) save_file ;;
     8) load_file ;;
     9) list_saves ;;
-    10) generate_random_box ;;
+    10) generate_box_randomly ;;
     11) echo "Bye"; clear; exit ;;
     *) echo "Not a valid choice." ;;
   esac
