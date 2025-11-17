@@ -122,7 +122,7 @@ load_object_pool() {
 }
 
 prompt_for_box_size() {
-  read -p "Enter the number of items for the random box (Max 30 objects): " box_size
+  read -p "Enter the number of items for the random box (Max 30 objects, Min 1 object): " box_size
   if [[ $box_size -lt 1 || $box_size -gt 30 ]]; then
     echo "Invalid input. Defaulting to 10."
     box_size=10
@@ -137,6 +137,20 @@ generate_box_randomly() {
   mapfile -t random_items < <(shuf -n "$box_size" /home/farrow/Bashing_Boxes/warehouse_of_objects.txt)
   #The < <() is called process substitution It lets a command’s output be treated like a file for input redirection.
   echo "Generated a random box with $box_size items."
+  menu
+}
+
+search_box_for_item() {
+  read -p "Enter the item to search for in the current box: " search_item
+  
+  sleep 2
+  menu
+}
+
+search_file_for_item() {
+  read -p "Enter the item to search for in save files: " search_item
+  
+  sleep 2
   menu
 }
 
@@ -155,8 +169,12 @@ menu() {
   echo "9. List all boxes from file"
   echo "10. generate random box"
   echo "11. Exit"
+  echo "12. Search box for item"
+  echo "13. Search file for item"
+  echo "14. "
+  echo "15. Clear Terminal"
   echo "==========================="
-  read -p "Pick an option (1-11): " choice
+  read -p "Pick an option (1-15): " choice
 
   case $choice in 
     1) print_list ;;
@@ -170,6 +188,10 @@ menu() {
     9) list_saves ;;
     10) generate_box_randomly ;;
     11) echo "Bye"; clear; exit ;;
+    12) search_box_for_item ;;
+    13) search_file_for_item ;;
+    14) ;;
+    15) clear; menu ;;
     *) echo "Not a valid choice." ;;
   esac
 }
