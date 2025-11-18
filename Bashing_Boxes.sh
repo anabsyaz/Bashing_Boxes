@@ -142,6 +142,18 @@ generate_box_randomly() {
 
 search_box_for_item() {
   read -p "Enter the item to search for in the current box: " search_item
+  found=false
+  
+  for item in "${random_items[@]}"; do
+    if [[ "$item" == *"$search_item"* ]]; then
+      echo "Found: $item"
+      found=true
+    fi
+  done
+  
+  if ! $found; then
+    echo "Item '$search_item' not found in the current box."
+  fi
   
   sleep 2
   menu
