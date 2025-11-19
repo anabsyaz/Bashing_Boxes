@@ -140,6 +140,7 @@ generate_box_randomly() {
   menu
 }
 
+#searches the current box for an item
 search_box_for_item() {
   read -p "Enter the item to search for in the current box: " search_item
   found=false
@@ -159,9 +160,14 @@ search_box_for_item() {
   menu
 }
 
+#searches all save files in the /data directory for an item
 search_file_for_item() {
   read -p "Enter the item to search for in save files: " search_item
-  
+  search_file=$(grep -ril "$search_item" data/) #searches all files in the data/ directory for the item, -r is recursive, -i is case insensitive, -l lists only filenames
+  if [[ -n "$search_file" ]]; then
+    echo "Found in the following files:"
+    echo "$search_file"
+  fi
   sleep 2
   menu
 }
@@ -180,11 +186,11 @@ menu() {
   echo "8. Load box from file"
   echo "9. List all boxes from file"
   echo "10. generate random box"
-  echo "11. Exit"
-  echo "12. Search box for item"
-  echo "13. Search file for item"
-  echo "14. "
-  echo "15. Clear Terminal"
+  echo "11. Search box for item"
+  echo "12. Search file for item"
+  echo "13. "
+  echo "14. Clear Terminal"
+  echo "15. Exit"
   echo "==========================="
   read -p "Pick an option (1-15): " choice
 
@@ -199,11 +205,11 @@ menu() {
     8) load_file ;;
     9) list_saves ;;
     10) generate_box_randomly ;;
-    11) echo "Bye"; clear; exit ;;
-    12) search_box_for_item ;;
-    13) search_file_for_item ;;
-    14) ;;
-    15) clear; menu ;;
+    11) search_box_for_item ;;
+    12) search_file_for_item ;;
+    13)  ;;
+    14) clear; menu ;;
+    15) echo "Bye"; clear; exit ;;
     *) echo "Not a valid choice." ;;
   esac
 }
