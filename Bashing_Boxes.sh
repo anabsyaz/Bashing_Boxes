@@ -143,12 +143,10 @@ generate_box_randomly() {
 #searches the current box for an item
 search_box_for_item() {
   read -p "Enter the item to search for in the current box: " search_item
-  found=false
   
   for item in "${random_items[@]}"; do
     if [[ "$item" == *"$search_item"* ]]; then
       echo "Found: $item"
-      found=true
     fi
   done
   
